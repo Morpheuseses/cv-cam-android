@@ -9,7 +9,7 @@
 АСУ-22-1б 
 
 ##### **Стек**: 
-Python, OpenCV, YOLO
+Python, OpenCV, YOLO, Java, Android, Flask
 
 ##### **План работы**:
 - [ ] Получение видеоданных с камеры в реальном времени
