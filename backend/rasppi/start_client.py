@@ -1,8 +1,9 @@
 import requests
 import socket
+import json
+import os
 
-SERVER_URL = "http://<SERVER_IP>:5000/register"
-DEVICE_NAME = "raspberry_pi_1"
+CONFIG_FILE = "config.json"
 
 def get_local_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -13,17 +14,28 @@ def get_local_ip():
         s.close()
     return ip
 
-def register_ip():
+if os.path.exists(CONFIG_FILE):
+    with open(CONFIG_FILE, "r") as f:
+        config = json.load(f)
+else:
+    raise RuntimeError("Config file not found!")
+
+DEVICE_NAME = config['device']['name']
+DEVICE_PORT = config['device']['port']
+ROLE = config['device']['role']
+SERVER_URL = f"http://{config['server']['ip']}:{config['server']['port']}/register"
+
+def register_client():
     ip = get_local_ip()
-    payload = {"device_name": DEVICE_NAME, "ip": ip}
+    payload = {"device_name": DEVICE_NAME, "ip": ip, "port": DEVICE_PORT, "role": ROLE}
     try:
         response = requests.post(SERVER_URL, json=payload, timeout=5)
         if response.status_code == 200:
-            print("Successfully sent:", response.json())
-        else:
-            print("Registration error:", response.status_code, response.text)
+            config['device']['ip'] = ip
+            with open(CONFIG_FILE, "w") as f:
+                json.dump(config, f, indent=2)
     except Exception as e:
         print("Connection error:", e)
 
 if __name__ == "__main__":
-    register_ip()
+    register_client()
