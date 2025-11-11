@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Storage for IPs (in a real project, this can be replaced with a database)
+# Storage for IPs
 registered_devices = {}
 
 @app.route('/register', methods=['POST'])
