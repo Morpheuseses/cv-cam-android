@@ -14,7 +14,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 echo 'Starting server...'
-# 'python3 start_server.py &' or some other file
+python3 start_server.py &
 status=$?
 
 if [ $status -ne 0 ]; then
