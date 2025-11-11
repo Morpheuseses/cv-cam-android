@@ -1,0 +1,12 @@
+{
+  "device": {
+    "name": "raspberry_pi",
+    "ip": "192.168.122.62",
+    "port": 6000,
+    "role": "sender"
+  },
+  "server": {
+    "ip": "5.129.248.76",
+    "port": 5000
+  }
+}
