@@ -1,0 +1,13 @@
+{
+  "server": {
+    "ip": "0.0.0.0",
+    "listen_port": 5000
+  },
+  "clients": {
+    "raspberry_pi": {
+      "role": "sender",
+      "ip": "192.168.122.62",
+      "port": 6000
+    }
+  }
+}
