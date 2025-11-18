@@ -14,7 +14,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 echo 'Starting client...'
-# 'python3 start_client.py &' or some other file
+python3 start_client.py &
 status=$?
 
 if [ $status -ne 0 ]; then
