@@ -1,145 +1,78 @@
 package com.example.cv_cam_android;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import androidx.appcompat.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.media3.common.MediaItem;
-import androidx.media3.common.Player;
-import androidx.media3.common.PlaybackException;
 import androidx.media3.exoplayer.ExoPlayer;
-import com.example.cv_cam_android.databinding.ActivityMainBinding;
-import com.google.android.material.snackbar.Snackbar;
-import java.util.Arrays;
-import java.util.List;
+import androidx.media3.ui.PlayerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-    private AppBarConfiguration appBarConfiguration;
-
+    private PlayerView playerView;
     private ExoPlayer player;
-    private int currentVideoIndex = 0;
-    private long playbackPosition = 0;
-
-    private final List<String> videoUrls = Arrays.asList(
-            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
-    );
+    private Button btnConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
+        // Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        // Навигация
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        // PlayerView и ExoPlayer
+        playerView = findViewById(R.id.player_view);
+        player = new ExoPlayer.Builder(this).build();
+        playerView.setPlayer(player);
 
-        // FAB
-        binding.fab.setOnClickListener(view ->
-                Snackbar.make(view, "Wanna some?", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null)
-                        .show()
-        );
+        // Пример медиа для теста (замени на свой URL)
+        String url = "https://www.example.com/sample.mp3";
+        MediaItem mediaItem = MediaItem.fromUri(url);
+        player.setMediaItem(mediaItem);
+        player.prepare();
+
+        // Кнопка "Подключиться"
+        btnConnect = findViewById(R.id.btn_connect);
+        btnConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Тут логика подключения к серверу
+            }
+        });
     }
 
-    // ---- ExoPlayer ----
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-    private void initializePlayer() {
-        if (player == null) {
-            Log.d("PLAYER", "Initializing player");
-            player = new ExoPlayer.Builder(this).build();
-            binding.playerView.setPlayer(player);
-
-            MediaItem mediaItem = MediaItem.fromUri(videoUrls.get(currentVideoIndex));
-            player.setMediaItem(mediaItem);
-            player.prepare();
-            player.seekTo(playbackPosition);
-            player.play();
-
-            player.addListener(new Player.Listener() {
-                @Override
-                public void onPlaybackStateChanged(int state) {
-                    if (state == Player.STATE_ENDED) {
-                        showCompletionDialog();
-                    }
-                }
-
-                @Override
-                public void onPlayerError(PlaybackException error) {
-                    Log.e("PLAYER_ERROR", "Error: " + error.getMessage(), error);
-                }
-            });
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            // Открытие SettingsActivity
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
-    private void releasePlayer() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         if (player != null) {
-            playbackPosition = player.getCurrentPosition();
             player.release();
-            player = null;
         }
-    }
-
-    private void showCompletionDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Playback Finished!")
-                .setMessage("Want to replay or play next video?")
-                .setIcon(android.R.drawable.ic_media_play)
-                .setPositiveButton("Replay", (dialog, i) -> {
-                    player.seekTo(0);
-                    player.play();
-                })
-                .setNegativeButton("Next", (dialog, i) -> {
-                    currentVideoIndex = (currentVideoIndex + 1) % videoUrls.size();
-                    playbackPosition = 0;
-                    initializePlayer();
-                })
-                .create()
-                .show();
-    }
-
-    // ---- Жизненный цикл ----
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initializePlayer();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (player != null) player.play();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (player != null) player.pause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        releasePlayer();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
     }
 }

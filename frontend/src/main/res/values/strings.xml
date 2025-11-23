@@ -10,4 +10,10 @@
     <string name="lorem_ipsum">
         Haha funny stuff
     </string>
+    <string name="save_button">Сохранить</string>
+    <string name="Port">Порт</string>
+    <string name="ipaddressEditBox">IP адрес</string>
+    <string name="SettingsButton">Настройки</string>
+    <string name="Settings">Настройки</string>
+    <string name="ConnectButton">Подключиться</string>
 </resources>
