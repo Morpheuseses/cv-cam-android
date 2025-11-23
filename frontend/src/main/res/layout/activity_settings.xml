@@ -6,24 +6,17 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/edit_ip"
-        android:hint="IP адрес"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/edit_port"
-        android:hint="Порт"
-        android:inputType="number"
+        android:id="@+id/edit_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
+        android:autofillHints=""
+        android:hint="@string/hintURL"
+        android:inputType="textUri"/>
 
     <Button
         android:id="@+id/btn_save"
-        android:text="Сохранить"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/save_button"
         android:layout_marginTop="16dp"/>
 </LinearLayout>
