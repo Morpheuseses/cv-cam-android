@@ -17,4 +17,6 @@
     <string name="Settings">Настройки</string>
     <string name="ConnectButton">Подключиться</string>
     <string name="hintURL">Введите домен или сокет сервера</string>
+    <string name="StopButton">Остановить</string>
+    <string name="StartButton">Начать</string>
 </resources>

@@ -2,8 +2,8 @@ package com.example.cv_cam_android;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.Button;
+import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -18,13 +18,26 @@ public class SettingsActivity extends AppCompatActivity {
         editUrl = findViewById(R.id.edit_url);
         Button btnSave = findViewById(R.id.btn_save);
 
+        // Загружаем сохраненный URL
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
-        editUrl.setText(prefs.getString("stream_url", ""));
+        String savedUrl = prefs.getString("stream_url", "");
+        editUrl.setText(savedUrl);
 
         btnSave.setOnClickListener(v -> {
-            String url = editUrl.getText().toString();
-            prefs.edit().putString("stream_url", url).apply();
-            finish(); // закрыть настройки
+            String url = editUrl.getText().toString().trim();
+
+            if (url.isEmpty()) {
+                editUrl.setError("Введите URL сервера");
+                return;
+            }
+
+            // Сохраняем URL
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("stream_url", url);
+            editor.apply();
+
+            // Закрываем активность
+            finish();
         });
     }
 }
