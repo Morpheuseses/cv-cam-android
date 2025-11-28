@@ -1,12 +1,79 @@
 {
-  "device": {
-    "name": "raspberry_pi",
-    "ip": "192.168.122.62",
-    "port": 6000,
-    "role": "sender"
-  },
   "server": {
-    "ip": "5.129.248.76",
-    "port": 5000
+    "url": "ws://45.144.221.166:8765/raspberry",
+    "ping_interval": 20,
+    "ping_timeout": 40,
+    "reconnect_delay": 5
+  },
+  "model": {
+    "path": "yolo11n_ncnn_model",
+    "confidence_threshold": 0.5,
+    "iou_threshold": 0.45,
+    "verbose": false
+  },
+  "camera": {
+    "device_index": 0,
+    "width": 640,
+    "height": 480,
+    "fps": 30,
+    "autofocus": true,
+    "device_options": [
+      "/dev/usb0",
+      "/dev/video1",
+      "/dev/video2",
+      0,
+      1,
+      2
+    ]
+  },
+  "stream": {
+    "jpeg_quality": 70,
+    "target_fps": 30,
+    "log_interval": 30,
+    "resize_output": true,
+    "output_width": 640,
+    "output_height": 480,
+    "max_frame_skip": 5
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file": null,
+    "console": true
+  },
+  "detection": {
+    "show_fps": true,
+    "show_object_count": true,
+    "show_timestamp": true,
+    "bbox_thickness": 2,
+    "font_scale": 0.5,
+    "font_thickness": 1,
+    "label_background": true
+  },
+  "colors": {
+    "bbox_colors": [
+      [164, 120, 87],
+      [68, 148, 228],
+      [93, 97, 209],
+      [178, 182, 133],
+      [88, 159, 106],
+      [96, 202, 231],
+      [159, 124, 168],
+      [169, 162, 241],
+      [98, 118, 150],
+      [172, 176, 184]
+    ],
+    "text_color": [0, 0, 0],
+    "fps_color": [0, 255, 255],
+    "count_color": [0, 255, 255]
+  },
+  "advanced": {
+    "enable_metrics": true,
+    "save_detections": false,
+    "detection_log_file": "detections.json",
+    "max_detection_history": 1000,
+    "enable_health_check": true,
+    "health_check_interval": 60
   }
 }
+
