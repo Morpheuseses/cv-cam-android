@@ -18,7 +18,6 @@ public class SettingsActivity extends AppCompatActivity {
         editUrl = findViewById(R.id.edit_url);
         Button btnSave = findViewById(R.id.btn_save);
 
-        // Загружаем сохраненный URL
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
         String savedUrl = prefs.getString("stream_url", "");
         editUrl.setText(savedUrl);
@@ -31,12 +30,10 @@ public class SettingsActivity extends AppCompatActivity {
                 return;
             }
 
-            // Сохраняем URL
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("stream_url", url);
             editor.apply();
 
-            // Закрываем активность
             finish();
         });
     }
