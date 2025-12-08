@@ -26,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
             String url = editUrl.getText().toString().trim();
 
             if (url.isEmpty()) {
-                editUrl.setError("Введите URL сервера");
+                editUrl.setError(getString(R.string.EnterUrlRequestError));
                 return;
             }
 

@@ -9,7 +9,7 @@ import java.net.URI;
 public class VideoClient {
     private static final String TAG = "VideoClient";
     private WebSocketClient webSocketClient;
-    private VideoFrameListener frameListener;
+    private final VideoFrameListener frameListener;
 
     public interface VideoFrameListener {
         void onFrameReceived(byte[] frameData);
@@ -134,7 +134,6 @@ public class VideoClient {
                 }
             };
 
-            // Настройка таймаутов
             webSocketClient.setConnectionLostTimeout(30);
 
             Log.d(TAG, "Starting connection...");

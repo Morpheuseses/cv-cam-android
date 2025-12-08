@@ -45,16 +45,17 @@ public class MainActivity extends AppCompatActivity implements VideoClient.Video
         btnStart.setOnClickListener(v -> {
             if (isConnected) {
                 videoClient.sendCommand("start_stream");
-                showToast("Запуск потока...");
+                showToast(getString(R.string.StreamInitializationMessage));
             } else {
-                showToast("Нет подключения к серверу");
+                showToast(getString(R.string.NoServerConnectionMessage));
             }
         });
 
         btnStop.setOnClickListener(v -> {
             if (isConnected) {
                 videoClient.sendCommand("stop_stream");
-                showToast("Остановка потока...");
+                showToast(getString(R.string.StreamStoppingMessage));
+
                 imageView.setImageBitmap(null);
             }
         });
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements VideoClient.Video
         String serverUrl = prefs.getString("stream_url", "");
 
         if (serverUrl.isEmpty()) {
-            showToast("URL сервера не задан");
+            showToast(getString(R.string.UrlIsNotInitializedMessage));
             return;
         }
 
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements VideoClient.Video
         }
 
         Log.d(TAG, "Final WebSocket URL: " + websocketUrl);
-        showToast("Подключение...");
+        showToast(getString(R.string.ConnectionMessage));
 
         videoClient.connect(websocketUrl);
     }
@@ -104,11 +105,11 @@ public class MainActivity extends AppCompatActivity implements VideoClient.Video
                     Log.d(TAG, "Frame displayed successfully");
                 } else {
                     Log.e(TAG, "Failed to decode bitmap");
-                    showToast("Ошибка декодирования кадра");
+                    showToast(getString(R.string.FrameDecodeErrorMessage));
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Error displaying frame: " + e.getMessage());
-                showToast("Ошибка отображения кадра");
+                showToast(getString(R.string.FrameShowErrorMessage));
             }
         });
     }
@@ -120,17 +121,17 @@ public class MainActivity extends AppCompatActivity implements VideoClient.Video
             updateButtonStates();
 
             if (connected) {
-                showToast("Подключено к серверу");
+                showToast(getString(R.string.ConnectedToServerMessage));
                 Log.i(TAG, "Successfully connected to server");
 
                 new Handler().postDelayed(() -> {
                     if (isConnected) {
                         videoClient.sendCommand("start_stream");
-                        showToast("Автозапуск потока...");
+                        showToast(getString(R.string.StreamAutoRequestMessage));
                     }
                 }, 1000);
             } else {
-                showToast("Отключено от сервера");
+                showToast(getString(R.string.DisconnectServerMessage));
                 Log.i(TAG, "Disconnected from server");
 
                 new Handler().postDelayed(() -> {
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements VideoClient.Video
     public void onError(String error) {
         runOnUiThread(() -> {
             Log.e(TAG, "Client error: " + error);
-            showToast("Ошибка: " + error);
+            showToast(getString(R.string.GeneralErrorPrefixMessage) + error);
         });
     }
 
