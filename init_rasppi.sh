@@ -11,7 +11,7 @@ if [ ! -d ".venv" ]; then
   source .venv/bin/activate
   pip install -r requirements.txt
   mkdir -p ~/tmp
-  TMPDIR=~/tmp pip install --no-cache-dir ultralytics
+  TMPDIR=~/tmp pip install --no-cache-dir ultralytics ncnn
 else 
   echo 'Python venv already exists';
   source .venv/bin/activate
