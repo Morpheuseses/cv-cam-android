@@ -18,5 +18,5 @@ else
 fi
 
 echo 'Starting client...'
-python3 rasppi.py 
+python3 start_client.py 
 
