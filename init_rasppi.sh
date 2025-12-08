@@ -3,7 +3,7 @@
 echo 'System Update';
 apt update -y && apt upgrade -y 
 
-apt install -y python python3-venv
+apt install -y python3 python3-venv
 
 if [ ! -d ".venv" ]; then
   echo 'Python venv initialization';
