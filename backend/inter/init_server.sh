@@ -3,13 +3,18 @@
 echo 'System Update';
 apt update -y && apt upgrade -y 
 
-apt install -y python3-venv
+apt install -y python3 python3-venv
 
-echo 'Python venv initialization';
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
+if [ ! -d ".venv" ]; then
+  echo 'Python venv initialization';
+  python3 -m venv .venv
+  source .venv/bin/activate
+  pip install -r requirements.txt
+else 
+  echo 'Python venv already exists';
+  source .venv/bin/activate
+fi
 echo 'Starting server...'
 python3 start_server.py
+
 
